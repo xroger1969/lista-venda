@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista Editável</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        td[contenteditable="true"] {
+            background-color: #eef;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        function saveData() {
+            let table = document.querySelector("table");
+            let rows = table.rows;
+            let data = [];
+            for (let i = 1; i < rows.length; i++) {
+                let row = rows[i];
+                data.push({
+                    campo: row.cells[0].innerText,
+                    informacao: row.cells[1].innerText
+                });
+            }
+            localStorage.setItem("savedTableData", JSON.stringify(data));
+            alert("Dados gravados com sucesso!");
+        }
+
+        function loadData() {
+            let storedData = localStorage.getItem("savedTableData");
+            if (storedData) {
+                let table = document.querySelector("table");
+                let rows = table.rows;
+                let data = JSON.parse(storedData);
+                for (let i = 0; i < data.length; i++) {
+                    rows[i + 1].cells[1].innerText = data[i].informacao;
+                }
+            }
+        }
+    </script>
+</head>
+<body onload="loadData()">
+    <h2>Lista Editável</h2>
+    <table>
+        <tr>
+            <th>Campo</th>
+            <th>Informação</th>
+        </tr>
+        <tr>
+            <td>Proprietário Principal</td>
+            <td contenteditable="true"></td>
+        </tr>
+        <tr>
+            <td>Retoma</td>
+            <td contenteditable="true"></td>
+        </tr>
+        <tr>
+            <td>Tipo de Venda</td>
+            <td contenteditable="true"></td>
+        </tr>
+        <tr>
+            <td>Financiamento</td>
+            <td contenteditable="true"></td>
+        </tr>
+        <tr>
+            <td>WAXOYL</td>
+            <td contenteditable="true"></td>
+        </tr>
+        <tr>
+            <td>Previsão de entrega</td>
+            <td contenteditable="true"></td>
+        </tr>
+        <tr>
+            <td>SEGURO (Histórico matrícula)</td>
+            <td contenteditable="true"></td>
+        </tr>
+        <tr>
+            <td>Origem</td>
+            <td contenteditable="true"></td>
+        </tr>
+        <tr>
+            <td>CCGO</td>
+            <td contenteditable="true">APRESENTAR</td>
+        </tr>
+    </table>
+    <button onclick="saveData()">Gravar Dados</button>
+</body>
+</html>
