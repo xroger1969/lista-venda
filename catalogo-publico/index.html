@@ -4,7 +4,7 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#071a33">
 <meta name="description" content="Catálogo profissional de viaturas com pesquisa por marca, modelo, matrícula, quilómetros e preço.">
-<title>Stock de Viaturas | AutoValor PT</title>
+<title>Viaturas IP | Catálogo Profissional</title>
 <style>
 :root{color-scheme:light;--navy:#071a33;--navy2:#103659;--blue:#087aef;--teal:#00d7be;--text:#10233c;--muted:#60748d;--border:#dce6f2;--bg:#f2f6fb;--white:#fff;--shadow:0 10px 28px rgba(7,26,51,.07)}
 *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.45}button,input,select{font:inherit}button{cursor:pointer}a{color:inherit}
@@ -16,7 +16,7 @@
 </head>
 <body>
 <header class="hero"><div class="wrap">
-  <div class="top"><a href="./" class="brand"><span class="logo">AV</span><span>AUTO VALOR <span style="color:#05e0cc">PT</span></span></a><span class="tag">CATÁLOGO PARA PROFISSIONAIS</span></div>
+  <div class="top"><a href="./" class="brand"><span class="logo">IP</span><span>VIATURAS <span style="color:#05e0cc">IP</span></span></a><span class="tag">CATÁLOGO PARA PROFISSIONAIS</span></div>
   <h1>Encontre a próxima viatura<br>para o seu negócio.</h1>
   <p>Consulte o stock disponível para apresentação, compare características e assinale as viaturas que lhe interessam.</p>
   <div class="metrics"><div class="metric"><strong id="totalCount">—</strong><span>Viaturas no catálogo</span></div><div class="metric"><strong id="brandCount">—</strong><span>Marcas</span></div><div class="metric"><strong id="minPrice">—</strong><span>Preço desde</span></div></div>
@@ -44,7 +44,7 @@
   </select>
 </div>
 <section id="results" aria-live="polite" aria-label="Viaturas encontradas"></section>
-<footer class="footer"><b>AUTO VALOR PT</b> · Catálogo profissional · Dados de referência: 03/11/2026<br>Preços e disponibilidade sujeitos a confirmação. As características apresentadas resultam da informação recebida.</footer>
+<footer class="footer"><b>VIATURAS IP</b> · Catálogo profissional · Dados de referência: 03/11/2026<br>Preços e disponibilidade sujeitos a confirmação. As características apresentadas resultam da informação recebida.</footer>
 </main>
 <div id="floating" class="floating"><span id="selectedCount">0 selecionadas</span><button id="copySelection" class="btn primary small">Copiar seleção</button><button id="shareSelection" class="btn small">WhatsApp</button><button id="clearSelection" class="btn small">Limpar</button></div>
 <div class="notice" id="notice" role="status"></div>
@@ -64,7 +64,7 @@ function updateUrl(){if(location.protocol==="file:")return;const q=new URLSearch
 function selectVehicle(plate){if(selected.has(plate))selected.delete(plate);else selected.add(plate);render();updateSelected()}
 function updateSelected(){const n=selected.size;$("selectedCount").textContent=n+" viatura"+(n===1?" selecionada":"s selecionadas");$("floating").classList.toggle("show",n>0)}
 function line(c){return `${c.marca} ${c.modelo} | ${c.versao} | ${c.matricula} | ${kmFmt.format(c.km)} km | ${eurFmt.format(c.preco)}`}
-function selectionText(){return "Viaturas de interesse — AutoValor PT:\n\n"+cars.filter(c=>selected.has(c.matricula)).map(line).join("\n")+"\n\nAgradeço confirmação de disponibilidade e condições."}
+function selectionText(){return "Viaturas de interesse — Viaturas IP:\n\n"+cars.filter(c=>selected.has(c.matricula)).map(line).join("\n")+"\n\nAgradeço confirmação de disponibilidade e condições."}
 async function copyText(value){try{await navigator.clipboard.writeText(value);notify("Copiado para a área de transferência")}catch{const t=document.createElement("textarea");t.value=value;document.body.append(t);t.select();document.execCommand("copy");t.remove();notify("Copiado")}}
 function filter(){const q=norm($("search").value),brand=$("brand").value,model=$("model").value,fuel=$("fuel").value,kmMin=numberVal("kmMin"),kmMax=numberVal("kmMax"),pMin=numberVal("pMin"),pMax=numberVal("pMax");
  filtered=cars.filter(c=>(!brand||c.marca===brand)&&(!model||c.modelo===model)&&(!fuel||c.combustivel===fuel)&&(kmMin===null||c.km>=kmMin)&&(kmMax===null||c.km<=kmMax)&&(pMin===null||c.preco>=pMin)&&(pMax===null||c.preco<=pMax)&&(!q||norm([c.matricula,c.marca,c.modelo,c.versao,c.combustivel,c.km,c.preco].join(" ")).includes(q)));
@@ -79,7 +79,7 @@ function render(){const root=$("results");if(!filtered.length){root.innerHTML='<
  root.querySelectorAll("[data-select]").forEach(b=>b.addEventListener("click",()=>selectVehicle(b.dataset.select)));
  root.querySelectorAll("[data-copy]").forEach(b=>b.addEventListener("click",()=>{const c=cars.find(x=>x.matricula===b.dataset.copy);copyText(line(c))}));}
 function reset(){for(const id of inputs)$(id).value="";updateModels();filter()}
-function exportCsv(){const head=["Matrícula","Quilómetros","Marca","Modelo","Versão","Combustível","Preço (€)"];const esc=v=>{let s=String(v);if(/^[=+\-@\t\r]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"'};const rows=filtered.map(c=>[c.matricula,c.km,c.marca,c.modelo,c.versao,c.combustivel,c.preco.toFixed(2).replace(".",",")]);const csv="\uFEFF"+[head,...rows].map(row=>row.map(esc).join(";")).join("\r\n");const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));a.download="stock-autovalorpt.csv";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+function exportCsv(){const head=["Matrícula","Quilómetros","Marca","Modelo","Versão","Combustível","Preço (€)"];const esc=v=>{let s=String(v);if(/^[=+\-@\t\r]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"'};const rows=filtered.map(c=>[c.matricula,c.km,c.marca,c.modelo,c.versao,c.combustivel,c.preco.toFixed(2).replace(".",",")]);const csv="\uFEFF"+[head,...rows].map(row=>row.map(esc).join(";")).join("\r\n");const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));a.download="stock-viaturas-ip.csv";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
 async function init(){try{if(!("DecompressionStream" in window))throw Error("Navegador antigo");const bytes=Uint8Array.from(atob(STOCK_GZ),c=>c.charCodeAt(0));const stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream("gzip"));const obj=JSON.parse(await new Response(stream).text());cars=obj.a.map(r=>({matricula:r[0],km:r[1],marca:obj.b[r[2]],modelo:obj.m[r[3]],versao:obj.v[r[4]],combustivel:obj.f[r[5]],preco:r[6]/100}));$("totalCount").textContent=kmFmt.format(cars.length);$("brandCount").textContent=obj.b.length;$("minPrice").textContent=eurFmt.format(Math.min(...cars.map(c=>c.preco)));fillSelect("brand",obj.b,"Todas as marcas");fillSelect("fuel",obj.f,"Todos os combustíveis");updateModels();
  const params=new URLSearchParams(location.search);for(const id of inputs)if(params.has(id))$(id).value=params.get(id).slice(0,90);updateModels();if(params.has("model"))$("model").value=params.get("model");filter();
  for(const id of inputs){$(id).addEventListener(id==="search"?"input":"change",()=>{if(id==="brand")updateModels();filter()});if(["kmMin","kmMax","pMin","pMax"].includes(id))$(id).addEventListener("input",filter)}
